@@ -1,4 +1,5 @@
 import type { ErrorRequestHandler, RequestHandler } from 'express';
+import { ZodError } from 'zod';
 import type { ApiErrorBody } from '../../../shared/types.js';
 import { AppError } from '../errors.js';
 
@@ -6,12 +7,21 @@ export const notFoundHandler: RequestHandler = (_req, _res, next) => {
   next(new AppError('NOT_FOUND', 'Not found'));
 };
 
+function fromZod(err: ZodError): AppError {
+  const issue = err.issues[0];
+  const field = issue?.path.join('.');
+  const message = issue ? (field ? `${field}: ${issue.message}` : issue.message) : 'Invalid request';
+  return new AppError('VALIDATION_ERROR', message);
+}
+
 // Every error leaves the API in the same shape. Unknown errors are logged
 // and replaced with a generic message so internals never reach the client.
 export const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
   let appError: AppError;
   if (err instanceof AppError) {
     appError = err;
+  } else if (err instanceof ZodError) {
+    appError = fromZod(err);
   } else if (err?.type === 'entity.too.large') {
     appError = new AppError('CONTENT_TOO_LARGE', 'This document is too large to save.');
   } else if (err?.type === 'entity.parse.failed') {

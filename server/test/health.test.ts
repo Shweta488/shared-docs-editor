@@ -1,11 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import request from 'supertest';
-import { createApp } from '../src/app.js';
-import { createDb } from '../src/db/client.js';
-
-async function makeApp() {
-  return createApp({ db: await createDb(':memory:') });
-}
+import { login, makeApp } from './helpers.js';
 
 describe('health and errors', () => {
   it('GET /api/health returns ok with the DB reachable', async () => {
@@ -15,7 +10,9 @@ describe('health and errors', () => {
   });
 
   it('unknown /api route returns the JSON error shape', async () => {
-    const res = await request(await makeApp()).get('/api/nope');
+    const app = await makeApp();
+    const token = await login(app, 'alice@example.com');
+    const res = await request(app).get('/api/nope').set('Authorization', `Bearer ${token}`);
     expect(res.status).toBe(404);
     expect(res.body).toEqual({ error: { code: 'NOT_FOUND', message: 'Not found' } });
   });
