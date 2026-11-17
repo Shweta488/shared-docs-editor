@@ -10,6 +10,7 @@ Most important rules (full list in `RULES.md`):
 - No application code until the implementation plan is approved.
 - Never commit without "approved to commit". Never push without a separate "approved to push".
 - Never commit directly to `main`. One branch and one PR per story.
+- Starting a story: `git checkout main`, `git pull`, confirm the previous story's commits are on `main` (`git log --oneline -5`; if not, stop and say so), then branch from `main` with the plan's branch name. Never start on an old branch or a stale `main`.
 - Enforce access on the server for every document route.
 - Keep UI code separate from server code. Keep routes thin. Access logic lives in one function.
 - Sanitize stored HTML with an allow-list. Parameterized SQL only.
