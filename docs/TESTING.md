@@ -20,7 +20,7 @@ Autosave is covered by the manual checklist; a unit test for `useAutosave` is a 
 |---|---|
 | S0 | `/api/health` returns 200; unknown `/api` route returns the JSON error shape |
 | S1 | Login with seeded email → token; unknown email → 401; missing, tampered, and expired token → 401; `/users` lists seeded users |
-| S2 | Create, list, get, rename, save, delete. Access matrix per route: owner, editor, viewer, stranger (stranger 404, viewer save 403, editor delete 403). Validation 400s. Content over 1 MB → 413. Sanitizer: `<script>`, attributes, and `h4` handled as in the LLD |
+| S2 | Create, list, get, rename, save, delete. Access matrix per route: owner, editor, viewer, stranger (stranger 404, viewer save 403, editor delete 403). Validation 400s. Content over 1 MB → 413. Sanitizer: `<script>`, attributes, and `h4` handled as in the LLD. Every runtime dependency loads in plain Node without `require()` of ESM (matches Vercel's runtime) |
 | S3 | Round trip: HTML with every allowed format saves and loads unchanged |
 | S4 | Owner adds, changes role, removes. Editor and viewer can't share (403). Stranger 404. Share with owner or unknown user → 400. After removal the user gets 404. Owner's list shows `shareCount`. Delete removes shares |
 | S5 | `.txt`, `.md`, `.docx` fixture → document with expected HTML. Bad extension → 415. Over 4 MB → 413. Empty file → 400. `<script>` in `.md` is stripped |

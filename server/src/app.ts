@@ -5,6 +5,7 @@ import { initDb } from './db/seed.js';
 import { requireAuth } from './middleware/auth.js';
 import { errorHandler, notFoundHandler } from './middleware/errors.js';
 import { authRoutes, publicAuthRoutes } from './routes/auth.js';
+import { documentRoutes } from './routes/documents.js';
 import { userRoutes } from './routes/users.js';
 
 export interface AppDeps {
@@ -37,6 +38,7 @@ export function createApp({ db, authSecret }: AppDeps) {
   app.use('/api', requireAuth(db, authSecret));
   app.use('/api', authRoutes());
   app.use('/api', userRoutes(db));
+  app.use('/api', documentRoutes(db));
 
   app.use('/api', notFoundHandler);
   app.use(errorHandler);
