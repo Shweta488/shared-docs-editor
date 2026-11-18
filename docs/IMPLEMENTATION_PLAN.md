@@ -50,7 +50,7 @@ Features land at about 5:20, a little after the 5:15 target. If S0 to S2 run lat
 
 ### S4. Sharing (`feat/s4-sharing`, 15 min)
 - **Goal:** owners grant, change, and remove access.
-- **In:** share service and routes, share dialog (owner and read-only views), "Shared with N" label on the dashboard (the API already returns `shareCount` from S2). **Out:** email invites, link sharing.
+- **In:** share service and routes, share dialog (owner only), "Shared with N" label on the dashboard (the API already returns `shareCount` from S2). **Out:** email invites, link sharing.
 - **Files:** `server/src/services/shares.ts`, `server/src/routes/shares.ts`, `client/src/components/ShareDialog.tsx`, dashboard row update.
 - **Done when:** the full Alice, Bob, Carol flow in `TESTING.md` passes locally; S4 tests in `TESTING.md` pass.
 
@@ -69,7 +69,7 @@ Features land at about 5:20, a little after the 5:15 target. If S0 to S2 run lat
 
 1. Playwright smoke test.
 2. Skeleton loading rows (use plain "Loading...").
-3. Read-only "People" view for non-owners.
+3. ~~Read-only "People" view for non-owners~~ (removed in S4 review: it exposed other users' emails).
 4. Delete document (F7, not required by the brief).
 5. `.docx` import (keep `.txt` and `.md`).
 
