@@ -6,7 +6,7 @@ import { loadEnv } from '../server/src/env.js';
 // Vercel function entry. vercel.json rewrites every /api/* path here.
 // The app is built once per cold start and reused across requests.
 const env = loadEnv();
-const appPromise = createDb(env.databaseUrl, env.databaseAuthToken).then((db) => createApp({ db }));
+const appPromise = createDb(env.databaseUrl, env.databaseAuthToken).then((db) => createApp({ db, authSecret: env.authSecret }));
 
 export default async function handler(req: IncomingMessage, res: ServerResponse) {
   const app = await appPromise;

@@ -14,6 +14,12 @@ Rules for this repo. They apply to humans and AI assistants equally. If a rule h
   4. The proposed commit message
 - Planning docs (LLD, UX, plan) each need their own approval ("LLD approved", etc.) before the next step starts.
 - No application code is written until the implementation plan is approved.
+- When the owner says a story is merged, or says to start the next story, do these before writing any code:
+  1. `git checkout main`
+  2. `git pull`
+  3. Confirm the previous story's commits are on `main` (`git log --oneline -5`). If not, stop and tell the owner.
+  4. Create the new story's branch from `main`, using the branch name in `docs/IMPLEMENTATION_PLAN.md`.
+- Never start a story on an old branch or on a stale `main`.
 
 ## 2. Branches and pull requests
 

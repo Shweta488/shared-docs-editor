@@ -11,6 +11,6 @@ try {
 
 const env = loadEnv();
 const db = await createDb(env.databaseUrl, env.databaseAuthToken);
-createApp({ db }).listen(env.port, () => {
+createApp({ db, authSecret: env.authSecret }).listen(env.port, () => {
   console.log(`API listening on http://localhost:${env.port}`);
 });
