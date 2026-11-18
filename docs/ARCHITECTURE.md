@@ -47,7 +47,7 @@ Access role for a user on a document: `owner` if they own it, otherwise the shar
 | Action | Viewer | Editor | Owner |
 |---|---|---|---|
 | Open and read | Yes | Yes | Yes |
-| See who has access | Yes | Yes | Yes |
+| See who has access | No | No | Yes |
 | Edit content and rename | No | Yes | Yes |
 | Share, change role, remove access | No | No | Yes |
 | Delete | No | No | Yes |
@@ -64,7 +64,7 @@ Access role for a user on a document: `owner` if they own it, otherwise the shar
 | GET | `/api/documents/:id` | owner, editor, viewer |
 | PATCH | `/api/documents/:id` | owner, editor |
 | DELETE | `/api/documents/:id` | owner |
-| GET | `/api/documents/:id/shares` | owner, editor, viewer |
+| GET | `/api/documents/:id/shares` | owner |
 | PUT | `/api/documents/:id/shares` | owner (add or change role) |
 | DELETE | `/api/documents/:id/shares/:userId` | owner |
 

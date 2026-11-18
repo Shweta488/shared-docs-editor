@@ -109,7 +109,7 @@ All routes are under `/api` and need `Authorization: Bearer <token>`, except log
 | `GET /documents/:id` | | 200 `{ document }` incl. `role`, `ownerName` | 404 |
 | `PATCH /documents/:id` | `{ title?, content? }`, at least one; content max 1 MB | 200 `{ id, title, updatedAt }` | 400, 403, 404, 413 |
 | `DELETE /documents/:id` | | 204 | 403, 404 |
-| `GET /documents/:id/shares` | | 200 `{ owner: User, shares: { user, role }[] }` | 404 |
+| `GET /documents/:id/shares` | | 200 `{ owner: User, shares: { user, role }[] }`. Owner only, because it lists other people's emails | 403, 404 |
 | `PUT /documents/:id/shares` | `{ userId, role }` | 200 `{ share }` (upsert) | 400 (unknown user, or the owner), 403, 404 |
 | `DELETE /documents/:id/shares/:userId` | | 204 | 403, 404 |
 

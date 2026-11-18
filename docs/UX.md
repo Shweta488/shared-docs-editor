@@ -15,16 +15,17 @@ Heading "Sign in to Docs". Three buttons: "Continue as Alice", "Continue as Bob"
 - Clicking a row opens the editor.
 
 **Editor (`/docs/:id`)**
-- Top bar: "← All documents", title input, save status, and a "Share" button (owner) or "People" button (others).
+- Top bar: "← All documents", title input, then:
+  - Owner: save status, and a "Share" button on the right.
+  - Editor and viewer: one group after the title, "Title · Editor · Owner: Alice" or "Title · View only · Owner: Alice". Editors also see the save status. No Share button.
 - Toolbar: Bold, Italic, Underline, H1, H2, H3, Bulleted list, Numbered list. Active formats look pressed.
 - Page: a centered column (max about 750 px) with the content.
 
-**Share dialog**
-- Opened from the editor. Lists the owner first, then each person and their role.
-- **Owner view:**
-  - Add someone: a dropdown of users who don't have access yet, a Viewer or Editor dropdown, and an "Add" button.
+**Share dialog (owner only)**
+- Opened from the editor's Share button. Lists the owner first, then each person and their role.
+- Controls:
+  - Add someone: a dropdown of users who don't have access yet, a Viewer or Editor dropdown, and an "Add" button. If everyone already has access, the add row is replaced by "Everyone already has access."
   - Each existing person has a role dropdown and a "Remove" button.
-- **Viewer and editor view:** the same list, read only. Note: "Only the owner can change access."
 
 ## 2. Main flows
 
