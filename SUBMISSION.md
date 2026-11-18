@@ -2,7 +2,7 @@
 
 - **Live app:** https://shared-docs-editor.vercel.app
 - **Repo:** https://github.com/Shweta488/shared-docs-editor
-- **Walkthrough video:** VIDEO_URL_HERE
+- **Walkthrough video:** https://www.loom.com/share/389591aac9af4fb1adf42cf006bb0450
 
 ## Test accounts
 
