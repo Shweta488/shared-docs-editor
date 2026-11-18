@@ -23,7 +23,7 @@ Autosave is covered by the manual checklist; a unit test for `useAutosave` is a 
 | S2 | Create, list, get, rename, save, delete. Access matrix per route: owner, editor, viewer, stranger (stranger 404, viewer save 403, editor delete 403). Validation 400s. Content over 1 MB → 413. Sanitizer: `<script>`, attributes, and `h4` handled as in the LLD. Every runtime dependency loads in plain Node without `require()` of ESM (matches Vercel's runtime) |
 | S3 | Round trip: HTML with every allowed format saves and loads unchanged |
 | S4 | Owner adds, changes role, removes. Editor and viewer can't list, add, or remove access (403). Stranger 404. Share with owner or unknown user → 400. After removal the user gets 404. Owner's list shows `shareCount`. Delete removes shares |
-| S5 | `.txt`, `.md`, `.docx` fixture → document with expected HTML. Bad extension → 415. Over 4 MB → 413. Empty file → 400. `<script>` in `.md` is stripped |
+| S5 | `.txt`, `.md`, `.docx` (built in code with `jszip`) → document with expected HTML. Bad extension → 415. Over 4 MB → 413. Empty or text-less file → 400. Damaged `.docx` → 400. No file → 400, no token → 401. `<script>` in `.md` is stripped; tables and links become plain text. UTF-8 filename becomes the title. `multer`, `mammoth`, `marked` load without `require()` of ESM |
 
 ## Manual checklist (final pass, local and live)
 
