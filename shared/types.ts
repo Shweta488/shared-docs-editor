@@ -30,3 +30,52 @@ export interface MeResponse {
 export interface UsersResponse {
   users: User[];
 }
+
+export type Role = 'owner' | 'editor' | 'viewer';
+export type ShareRole = Exclude<Role, 'owner'>;
+
+export interface DocSummary {
+  id: string;
+  title: string;
+  updatedAt: string;
+}
+
+export interface OwnedDocSummary extends DocSummary {
+  shareCount: number;
+}
+
+export interface SharedDocSummary extends DocSummary {
+  ownerName: string;
+  role: ShareRole;
+}
+
+export interface DocumentsListResponse {
+  owned: OwnedDocSummary[];
+  shared: SharedDocSummary[];
+}
+
+export interface DocumentDetail {
+  id: string;
+  title: string;
+  content: string;
+  ownerId: string;
+  ownerName: string;
+  role: Role;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface DocumentResponse {
+  document: DocumentDetail;
+}
+
+export interface CreateDocumentRequest {
+  title?: string;
+}
+
+export interface UpdateDocumentRequest {
+  title?: string;
+  content?: string;
+}
+
+export type UpdateDocumentResponse = DocSummary;

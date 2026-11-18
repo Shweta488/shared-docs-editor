@@ -9,6 +9,10 @@ export const notFoundHandler: RequestHandler = (_req, _res, next) => {
 
 function fromZod(err: ZodError): AppError {
   const issue = err.issues[0];
+  // Size limits are checked in the schema but answered with 413, not 400.
+  if (issue?.code === 'custom' && issue.params?.code === 'CONTENT_TOO_LARGE') {
+    return new AppError('CONTENT_TOO_LARGE', issue.message);
+  }
   const field = issue?.path.join('.');
   const message = issue ? (field ? `${field}: ${issue.message}` : issue.message) : 'Invalid request';
   return new AppError('VALIDATION_ERROR', message);
