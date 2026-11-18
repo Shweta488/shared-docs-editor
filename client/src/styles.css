@@ -58,10 +58,9 @@ body {
 .login-buttons { display: flex; flex-direction: column; gap: 10px; margin: 24px 0 12px; }
 
 h2 { font-size: 1.05rem; margin: 28px 0 8px; }
-.actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-start; }
-.import { display: flex; flex-direction: column; gap: 4px; flex: 1 1 260px; }
-.import .button { align-self: flex-start; }
-.import-hint, .import .error { margin: 0; }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+/* Full-width lines under the buttons, left-aligned with the first one. */
+.action-note { flex-basis: 100%; margin: -2px 0 0; }
 .button.subtle { border-color: transparent; background: transparent; color: var(--muted); }
 .button.subtle:hover { color: var(--danger); }
 

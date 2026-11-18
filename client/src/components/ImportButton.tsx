@@ -42,8 +42,10 @@ export function ImportButton() {
     }
   }
 
+  // A fragment, so the hint and error sit in the dashboard's action row and wrap
+  // onto their own full-width lines below both buttons.
   return (
-    <div className="import">
+    <>
       <button className="button" onClick={() => input.current?.click()} disabled={busy}>
         {busy ? 'Importing...' : 'Import file'}
       </button>
@@ -55,15 +57,14 @@ export function ImportButton() {
         aria-label="Import file"
         onChange={(e) => void onFile(e.target.files?.[0])}
       />
-      <p className="muted small import-hint">
-        Import a .txt, .md, or .docx file, up to 4 MB. Tables, links, images, and code blocks come in as plain text or
-        are left out.
+      <p className="muted small action-note">
+        Import .txt, .md, or .docx (max 4 MB). Tables, links, and images come in as plain text.
       </p>
       {error && (
-        <p className="error small" role="alert">
+        <p className="error small action-note" role="alert">
           {error}
         </p>
       )}
-    </div>
+    </>
   );
 }
