@@ -5,6 +5,7 @@ import StarterKit from '@tiptap/starter-kit';
 import type { DocumentDetail, DocumentResponse, UpdateDocumentResponse } from '../../../shared/types';
 import { api, ApiError } from '../api/client';
 import { SaveStatus } from '../components/SaveStatus';
+import { ShareDialog } from '../components/ShareDialog';
 import { Toolbar } from '../components/Toolbar';
 import { useAutosave } from '../hooks/useAutosave';
 
@@ -63,6 +64,8 @@ export function EditorPage() {
 
 function DocumentEditor({ doc }: { doc: DocumentDetail }) {
   const canEdit = doc.role !== 'viewer';
+  const isOwner = doc.role === 'owner';
+  const [shareOpen, setShareOpen] = useState(false);
   const location = useLocation();
   const isNew = (location.state as { isNew?: boolean } | null)?.isNew === true;
 
@@ -99,13 +102,21 @@ function DocumentEditor({ doc }: { doc: DocumentDetail }) {
           ← All documents
         </Link>
         <TitleInput doc={doc} canEdit={canEdit} selectOnMount={isNew} />
-        {canEdit ? (
-          <SaveStatus status={autosave.status} onRetry={autosave.retry} />
-        ) : (
-          <span className="badge">View only</span>
+        {!isOwner && (
+          <span className="doc-access">
+            <span className="badge">{canEdit ? 'Editor' : 'View only'}</span>
+            <span className="muted">Owner: {doc.ownerName}</span>
+          </span>
         )}
+        {canEdit && <SaveStatus status={autosave.status} onRetry={autosave.retry} />}
         <span className="spacer" />
+        {isOwner && (
+          <button className="button" onClick={() => setShareOpen(true)}>
+            Share
+          </button>
+        )}
       </header>
+      {shareOpen && <ShareDialog docId={doc.id} onClose={() => setShareOpen(false)} />}
       {canEdit && editor && <Toolbar editor={editor} />}
       <main className="editor-page">
         <EditorContent editor={editor} className="editor-content" aria-label="Document content" />
