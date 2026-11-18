@@ -79,3 +79,22 @@ export interface UpdateDocumentRequest {
 }
 
 export type UpdateDocumentResponse = DocSummary;
+
+export interface ShareEntry {
+  user: User;
+  role: ShareRole;
+}
+
+export interface SharesResponse {
+  owner: User;
+  shares: ShareEntry[];
+}
+
+export interface PutShareRequest {
+  userId: string;
+  role: ShareRole;
+}
+
+export interface PutShareResponse {
+  share: ShareEntry;
+}
