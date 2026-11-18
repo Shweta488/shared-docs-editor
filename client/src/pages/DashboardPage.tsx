@@ -7,6 +7,7 @@ import type {
 } from '../../../shared/types';
 import { api, ApiError } from '../api/client';
 import { useAuth } from '../auth/AuthContext';
+import { ImportButton } from '../components/ImportButton';
 import { timeAgo } from '../lib/time';
 
 function errorMessage(err: unknown): string {
@@ -87,6 +88,7 @@ export function DashboardPage() {
           <button className="button primary" onClick={createDoc} disabled={creating}>
             {creating ? 'Creating...' : 'New document'}
           </button>
+          <ImportButton />
         </div>
         {actionError && (
           <p className="error" role="alert">

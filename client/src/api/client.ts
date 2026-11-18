@@ -30,19 +30,23 @@ export class ApiError extends Error {
   }
 }
 
-/** Calls the API with the stored token and turns error responses into ApiError. */
+/**
+ * Calls the API with the stored token and turns error responses into ApiError.
+ * A FormData body is sent as multipart (the browser sets the boundary); anything else as JSON.
+ */
 export async function api<T>(method: string, path: string, body?: unknown): Promise<T> {
   const token = getToken();
   const headers: Record<string, string> = {};
+  const isForm = body instanceof FormData;
   if (token) headers.Authorization = `Bearer ${token}`;
-  if (body !== undefined) headers['Content-Type'] = 'application/json';
+  if (body !== undefined && !isForm) headers['Content-Type'] = 'application/json';
 
   let res: Response;
   try {
     res = await fetch(`/api${path}`, {
       method,
       headers,
-      body: body === undefined ? undefined : JSON.stringify(body),
+      body: body === undefined ? undefined : isForm ? body : JSON.stringify(body),
     });
   } catch {
     throw new ApiError(0, 'NETWORK', 'Can’t reach the server. Check your connection.');
