@@ -2,6 +2,14 @@
 
 A lightweight collaborative document editor: create, edit, import, and share rich-text documents. Built in a 4-hour timebox, so the goal is a small product slice that works end to end.
 
+## What I prioritized and why
+
+1. **Correct access control over feature count.** Sharing is where a bug hurts most, so access is decided in one server function, tested for every role on every route, and never left to the UI.
+2. **A working live deploy early.** The empty app went to Vercel and Turso first (S0), so hosting problems showed up before features depended on them. One did (see decision 9).
+3. **An editing experience that doesn't lose work.** Autosave with one save in flight, a visible status, and an editor limited to exactly what the server keeps, so formatting never disappears silently.
+4. **Depth over breadth.** Real-time co-editing, comments, and version history were cut. Viewer and Editor roles were kept because they make sharing meaningful for little cost.
+5. **Design before code.** HLD, LLD, UX, and a story plan were written and reviewed first, so AI-assisted building followed decisions I had already made.
+
 ## 1. Requirements
 
 ### 1.1 Functional (in scope)
@@ -128,6 +136,11 @@ Request path for an edit: editor change → debounced autosave (800 ms) → `PAT
 6. **Upload limit 4 MB**: Vercel functions cap request bodies at 4.5 MB.
 7. **Autosave with a single in-flight request** so fast typing never writes out of order; unsaved-changes warning on tab close.
 8. **Last write wins** for simultaneous edits: each save overwrites the whole document body, so one person's save can replace another's changes. Documented as a known limit; optimistic locking is the first "next step".
+
+Decisions made during the build:
+
+9. **`sanitize-html` pinned to exactly 2.17.0.** Version 2.18 loads an ESM-only parser with `require()`, which works on local Node but crashed the Vercel function on start. 2.17.0 uses a CommonJS parser. A test now loads every server package in plain Node with `require()` of ESM turned off, so this class of bug fails before deploy.
+10. **The access list is owner-only.** `GET /documents/:id/shares` returns 403 for editors and viewers, because the list includes other people's emails. Editors and viewers see their own role and the owner's name instead.
 
 ## 7. Risks
 
