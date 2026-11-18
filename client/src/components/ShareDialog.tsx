@@ -79,40 +79,49 @@ export function ShareDialog({ docId, onClose }: Props) {
         </button>
       </div>
 
-      {data && users.length > 0 && candidates.length === 0 && (
-        <p className="muted">Everyone already has access.</p>
-      )}
-      {data && candidates.length > 0 && (
-        <form
-          className="share-add"
-          onSubmit={(e) => {
-            e.preventDefault();
-            if (newUserId) void putShare(newUserId, newRole);
-          }}
-        >
-          <label className="visually-hidden" htmlFor="share-user">
-            Person
-          </label>
-          <select id="share-user" value={newUserId} onChange={(e) => setNewUserId(e.target.value)} disabled={busy}>
-            <option value="">Choose a person</option>
-            {candidates.map((u) => (
-              <option key={u.id} value={u.id}>
-                {u.name} ({u.email})
-              </option>
-            ))}
-          </select>
-          <label className="visually-hidden" htmlFor="share-role">
-            Role
-          </label>
-          <select id="share-role" value={newRole} onChange={(e) => setNewRole(e.target.value as ShareRole)} disabled={busy}>
-            <option value="viewer">Viewer</option>
-            <option value="editor">Editor</option>
-          </select>
-          <button className="button primary" type="submit" disabled={busy || !newUserId}>
-            Add
-          </button>
-        </form>
-      )}
+      <section className="dialog-section" aria-labelledby="share-add-heading">
+        <h3 id="share-add-heading">Add people</h3>
+        {!data ? null : candidates.length === 0 ? (
+          users.length > 0 && <p className="muted">Everyone already has access.</p>
+        ) : (
+          <form
+            className="share-add"
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (newUserId) void putShare(newUserId, newRole);
+            }}
+          >
+            <label className="visually-hidden" htmlFor="share-user">
+              Person
+            </label>
+            <select id="share-user" value={newUserId} onChange={(e) => setNewUserId(e.target.value)} disabled={busy}>
+              <option value="">Choose a person</option>
+              {candidates.map((u) => (
+                <option key={u.id} value={u.id}>
+                  {u.name} ({u.email})
+                </option>
+              ))}
+            </select>
+            <div className="share-add-row">
+              <label className="visually-hidden" htmlFor="share-role">
+                Role
+              </label>
+              <select
+                id="share-role"
+                value={newRole}
+                onChange={(e) => setNewRole(e.target.value as ShareRole)}
+                disabled={busy}
+              >
+                <option value="viewer">Viewer</option>
+                <option value="editor">Editor</option>
+              </select>
+              <button className="button primary" type="submit" disabled={busy || !newUserId}>
+                Add
+              </button>
+            </div>
+          </form>
+        )}
+      </section>
 
       {error && (
         <p className="error" role="alert">
@@ -120,22 +129,26 @@ export function ShareDialog({ docId, onClose }: Props) {
         </p>
       )}
 
-      {!data ? (
-        !error && <p className="muted">Loading...</p>
-      ) : (
-        <ul className="share-list">
-          <li>
-            <span>
-              <strong>{data.owner.name}</strong> <span className="muted">{data.owner.email}</span>
-            </span>
-            <span className="muted">Owner</span>
-          </li>
-          {data.shares.map((s) => (
-            <li key={s.user.id}>
-              <span>
-                <strong>{s.user.name}</strong> <span className="muted">{s.user.email}</span>
+      <section className="dialog-section" aria-labelledby="share-list-heading">
+        <h3 id="share-list-heading">People with access</h3>
+        {!data ? (
+          !error && <p className="muted">Loading...</p>
+        ) : (
+          <ul className="share-list">
+            <li>
+              <span className="person">
+                <span className="person-name">{data.owner.name}</span>
+                <span className="person-email">{data.owner.email}</span>
               </span>
-              <span className="share-controls">
+              <span className="muted">Owner</span>
+            </li>
+            {data.shares.map((s) => (
+              <li key={s.user.id}>
+                <span className="person">
+                  <span className="person-name">{s.user.name}</span>
+                  <span className="person-email">{s.user.email}</span>
+                </span>
+                <span className="share-controls">
                   <select
                     aria-label={`Role for ${s.user.name}`}
                     value={s.role}
@@ -153,11 +166,12 @@ export function ShareDialog({ docId, onClose }: Props) {
                   >
                     Remove
                   </button>
-              </span>
-            </li>
-          ))}
-        </ul>
-      )}
+                </span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
     </dialog>
   );
 }
