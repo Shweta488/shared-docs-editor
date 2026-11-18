@@ -9,7 +9,7 @@ Heading "Sign in to Docs". Three buttons: "Continue as Alice", "Continue as Bob"
 
 **Dashboard (`/`)**
 - Header: app name, signed-in user's name, "Sign out".
-- Actions: "New document" (primary) and "Import file", with the limits line under it (see section 4).
+- Actions: "New document" (primary) and "Import file", with the limits line on its own row below both (see section 4).
 - Section **My documents**: rows with title, "Edited 5 min ago", and "Shared with N" when the document is shared. Each row has a Delete action.
 - Section **Shared with me**: rows with title, "Owner: Alice", and a role badge, **Viewer** or **Editor**.
 - Clicking a row opens the editor.
@@ -33,7 +33,7 @@ Heading "Sign in to Docs". Three buttons: "Continue as Alice", "Continue as Bob"
 |---|---|
 | Create | Dashboard → "New document" → editor opens with "Untitled document" and the title selected |
 | Edit | Type or format → status shows "Saving..." → "All changes saved". Rename: edit the title, then Enter or click away |
-| Import | "Import file" → pick a file → the new document opens in the editor. Bad file: error under the button, no navigation |
+| Import | "Import file" → pick a file → the new document opens in the editor. Bad file: error below the buttons, no navigation |
 | Share | Editor → "Share" → pick a person and a role → "Add" → they appear in the list right away |
 | Open as editor | Shared with me → row → full editor, no Share controls |
 | Open as viewer | Shared with me → row → read-only page and title, no toolbar, "View only" badge in the top bar |
@@ -56,7 +56,7 @@ Heading "Sign in to Docs". Three buttons: "Continue as Alice", "Continue as Bob"
 
 ## 4. File import copy
 
-Under the Import button: **"Import a .txt, .md, or .docx file, up to 4 MB. Tables, links, images, and code blocks come in as plain text or are left out."**
+On its own line under the New document and Import buttons, small and muted: **"Import .txt, .md, or .docx (max 4 MB). Tables, links, and images come in as plain text."**
 
 Errors:
 - Wrong type: "That file type isn't supported. Use .txt, .md, or .docx."

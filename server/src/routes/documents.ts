@@ -1,12 +1,15 @@
 import { Router } from 'express';
 import type { Client } from '@libsql/client';
+import multer from 'multer';
 import { z } from 'zod';
 import type {
   DocumentResponse,
   DocumentsListResponse,
   UpdateDocumentResponse,
 } from '../../../shared/types.js';
+import { AppError } from '../errors.js';
 import { requireRole } from '../services/access.js';
+import { convertImport, MAX_IMPORT_BYTES } from '../services/import.js';
 import {
   createDocument,
   DEFAULT_TITLE,
@@ -17,6 +20,9 @@ import {
 } from '../services/documents.js';
 
 const MAX_CONTENT_BYTES = 1_000_000;
+
+// Memory storage: files are converted and discarded, never written to disk.
+const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: MAX_IMPORT_BYTES, files: 1 } });
 
 const titleSchema = z.string().trim().min(1, 'Title can’t be empty').max(200, 'Title is too long');
 
@@ -45,6 +51,16 @@ export function documentRoutes(db: Client): Router {
     const { title } = createBody.parse(req.body ?? {});
     const userId = res.locals.user.id;
     const id = await createDocument(db, userId, title ?? DEFAULT_TITLE);
+    const body: DocumentResponse = { document: await getDocument(db, id, 'owner') };
+    res.status(201).json(body);
+  });
+
+  router.post('/documents/import', upload.single('file'), async (req, res) => {
+    if (!req.file) throw new AppError('VALIDATION_ERROR', 'Choose a file to import.');
+    // Multer decodes filenames as Latin-1; browsers send UTF-8.
+    const name = Buffer.from(req.file.originalname, 'latin1').toString('utf8');
+    const { title, html } = await convertImport(name, req.file.buffer);
+    const id = await createDocument(db, res.locals.user.id, title, html);
     const body: DocumentResponse = { document: await getDocument(db, id, 'owner') };
     res.status(201).json(body);
   });
