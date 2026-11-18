@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import type {
   DocumentResponse,
   DocumentsListResponse,
@@ -29,6 +29,7 @@ export function DashboardPage() {
   const [loadError, setLoadError] = useState<string | null>(null);
   const [actionError, setActionError] = useState<string | null>(null);
   const [creating, setCreating] = useState(false);
+  const navigate = useNavigate();
 
   const load = useCallback(async () => {
     try {
@@ -47,11 +48,11 @@ export function DashboardPage() {
     setCreating(true);
     setActionError(null);
     try {
-      await api<DocumentResponse>('POST', '/documents', {});
-      await load();
+      const res = await api<DocumentResponse>('POST', '/documents', {});
+      // isNew tells the editor to select the title so the user can name it right away.
+      navigate(`/docs/${res.document.id}`, { state: { isNew: true } });
     } catch (err) {
       setActionError(errorMessage(err));
-    } finally {
       setCreating(false);
     }
   }

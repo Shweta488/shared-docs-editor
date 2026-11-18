@@ -46,7 +46,7 @@ Features land at about 5:20, a little after the 5:15 target. If S0 to S2 run lat
 - **Goal:** a usable rich-text editor that never loses edits.
 - **In:** TipTap with the allowed formats only, toolbar, title rename, `useAutosave`, save status, unsaved warning, view-only mode, not-found state. **Out:** share dialog.
 - **Files:** `client/src/pages/EditorPage.tsx`, `client/src/components/{Toolbar,SaveStatus}.tsx`, `client/src/hooks/useAutosave.ts`.
-- **Done when:** formatting survives a refresh; fast typing ends in "All changes saved"; viewers can't edit content or title; S3 tests in `TESTING.md` pass.
+- **Done when:** formatting survives a refresh; fast typing ends in "All changes saved"; viewers can't edit content or title; S3 tests in `TESTING.md` pass. **Preview check:** sign in as Alice, open a document, use every toolbar format, rename it, refresh, and confirm everything is still there with "All changes saved" shown.
 
 ### S4. Sharing (`feat/s4-sharing`, 15 min)
 - **Goal:** owners grant, change, and remove access.

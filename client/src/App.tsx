@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router';
 import { AuthProvider, useAuth } from './auth/AuthContext';
 import { DashboardPage } from './pages/DashboardPage';
+import { EditorPage } from './pages/EditorPage';
 import { LoginPage } from './pages/LoginPage';
 
 function RequireAuth({ children }: { children: ReactNode }) {
@@ -22,6 +23,14 @@ export function App() {
             element={
               <RequireAuth>
                 <DashboardPage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/docs/:id"
+            element={
+              <RequireAuth>
+                <EditorPage />
               </RequireAuth>
             }
           />

@@ -71,6 +71,12 @@ Rules for this repo. They apply to humans and AI assistants equally. If a rule h
 - Build passes.
 - All three run locally, and the results are shown in the approval request.
 - GitHub Actions runs typecheck and tests on every PR. A PR is not merged while CI is red.
+- Before merging any story, test it on the PR's Vercel preview URL, not only locally:
+  1. Sign in as a seeded user on the preview.
+  2. Run the story's main flow from its "Done when" list.
+  3. Check the Vercel runtime logs for errors.
+
+  Bugs that only appear on Vercel (bundling, env vars, the database connection) must be caught before merge.
 
 ## 8. Docs and UI copy
 

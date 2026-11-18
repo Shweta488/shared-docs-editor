@@ -76,3 +76,47 @@ h2 { font-size: 1.05rem; margin: 28px 0 8px; }
 .skeleton { background: linear-gradient(90deg, var(--surface), var(--border), var(--surface)); background-size: 200% 100%; animation: shimmer 1.2s infinite; }
 @keyframes shimmer { to { background-position: -200% 0; } }
 @media (prefers-reduced-motion: reduce) { .skeleton { animation: none; } }
+
+.editor-topbar { flex-wrap: wrap; }
+.back-link { color: var(--muted); text-decoration: none; white-space: nowrap; }
+.back-link:hover { color: var(--text); }
+.title-wrap { display: flex; flex-direction: column; min-width: 0; flex: 0 1 420px; }
+.title-input {
+  font: inherit; font-size: 1.1rem; font-weight: 600; color: var(--text);
+  background: transparent; border: 1px solid transparent; border-radius: 6px; padding: 4px 8px; width: 100%;
+}
+.title-input::placeholder { color: var(--muted); font-weight: 500; }
+.title-input:not([readonly]) { cursor: text; }
+.title-input:hover:not([readonly]) { border-color: var(--border); background: var(--bg); }
+.title-input:focus:not([readonly]) { border-color: var(--accent); background: var(--surface); outline: none; }
+.title-input[readonly] { cursor: default; }
+.title-error { font-size: 0.8rem; padding-left: 8px; }
+.save-status { font-size: 0.875rem; white-space: nowrap; }
+.link-button { font: inherit; background: none; border: 0; padding: 0; color: var(--accent); text-decoration: underline; cursor: pointer; }
+
+.toolbar {
+  display: flex; gap: 4px; padding: 6px 16px; background: var(--surface); border-bottom: 1px solid var(--border);
+  overflow-x: auto; position: sticky; top: 0; z-index: 1;
+}
+.tool {
+  font: inherit; font-size: 0.9rem; min-width: 36px; height: 34px; padding: 0 8px; flex-shrink: 0;
+  border: 1px solid transparent; border-radius: 6px; background: transparent; color: var(--text); cursor: pointer;
+}
+.tool:hover { background: var(--bg); }
+.tool[aria-pressed='true'] { background: var(--bg); border-color: var(--border); color: var(--accent); }
+.tool:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.tool-sep { width: 1px; align-self: stretch; margin: 6px 4px; background: var(--border); flex-shrink: 0; }
+.tool-bold { font-weight: 700; }
+.tool-italic { font-style: italic; }
+.tool-underline { text-decoration: underline; }
+
+.editor-page { max-width: 750px; margin: 24px auto; padding: 0 16px; }
+.editor-content .tiptap {
+  min-height: 60vh; padding: 32px 40px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+  outline: none; line-height: 1.6;
+}
+.editor-content .tiptap:focus-visible { border-color: var(--accent); }
+.editor-content .tiptap > :first-child { margin-top: 0; }
+@media (max-width: 640px) {
+  .editor-content .tiptap { padding: 20px 16px; }
+}
